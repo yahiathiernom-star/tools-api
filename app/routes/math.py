@@ -29,3 +29,25 @@ def factorielle():
         resultat *= i
 
     return jsonify({"resultat": resultat}), 200
+
+
+@math_bp.get("/est_premier")
+def est_premier():
+    n = request.args.get("n")
+
+    if n is None:
+        return erreur_400("Le paramètre n est obligatoire")
+
+    try:
+        n = int(n)
+    except ValueError:
+        return erreur_400("Le paramètre n doit être un entier")
+
+    if n < 2:
+        return jsonify({"resultat": False}), 200
+
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return jsonify({"resultat": False}), 200
+
+    return jsonify({"resultat": True}), 200
