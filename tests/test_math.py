@@ -34,3 +34,20 @@ def test_est_premier_limite(client):
 def test_est_premier_erreur(client):
     response = client.get("/math/est_premier?n=abc")
     assert response.status_code == 400
+
+
+def test_pgcd_normal(client):
+    response = client.get("/math/pgcd?a=12&b=8")
+    assert response.status_code == 200
+    assert response.get_json() == {"resultat": 4}
+
+
+def test_pgcd_limite(client):
+    response = client.get("/math/pgcd?a=0&b=5")
+    assert response.status_code == 200
+    assert response.get_json() == {"resultat": 5}
+
+
+def test_pgcd_erreur(client):
+    response = client.get("/math/pgcd?a=0&b=0")
+    assert response.status_code == 400
