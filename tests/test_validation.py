@@ -20,3 +20,9 @@ def test_email_valide_sans_domaine(client):
 
     assert response.status_code == 200
     assert response.get_json()["valide"] is False
+
+def test_email_valide_espaces_autour(client):
+    response = client.get(f"{URL_EMAIL}?email=%20test@mail.com%20")
+
+    assert response.status_code == 200
+    assert response.get_json() == {"email": "test@mail.com", "valide": True}
