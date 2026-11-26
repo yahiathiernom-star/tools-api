@@ -51,3 +51,27 @@ def est_premier():
             return jsonify({"resultat": False}), 200
 
     return jsonify({"resultat": True}), 200
+
+@math_bp.get("/pgcd")
+def pgcd():
+    a = request.args.get("a")
+    b = request.args.get("b")
+
+    if a is None or b is None:
+        return erreur_400("Les paramètres a et b sont obligatoires")
+
+    try:
+        a = int(a)
+        b = int(b)
+    except ValueError:
+        return erreur_400("Les paramètres a et b doivent être des entiers")
+
+    if a == 0 and b == 0:
+        return erreur_400("Le PGCD de 0 et 0 n'est pas défini")
+
+    a, b = abs(a), abs(b)
+
+    while b != 0:
+        a, b = b, a % b
+
+    return jsonify({"resultat": a}), 200
