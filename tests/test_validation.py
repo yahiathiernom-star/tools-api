@@ -14,3 +14,9 @@ def test_email_valide_sans_arobase(client):
 
     assert response.status_code == 200
     assert response.get_json()["valide"] is False
+
+def test_email_valide_sans_domaine(client):
+    response = client.get(f"{URL_EMAIL}?email=toto@")
+
+    assert response.status_code == 200
+    assert response.get_json()["valide"] is False
