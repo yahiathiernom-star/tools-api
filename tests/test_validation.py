@@ -26,3 +26,10 @@ def test_email_valide_espaces_autour(client):
 
     assert response.status_code == 200
     assert response.get_json() == {"email": "test@mail.com", "valide": True}
+
+# --- Cas d'erreur ---
+def test_email_valide_sans_parametre(client):
+    response = client.get(URL_EMAIL)
+
+    assert response.status_code == 400
+    assert response.get_json()["erreur"] == "Le paramètre 'email' est requis"
