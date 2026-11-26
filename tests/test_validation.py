@@ -33,3 +33,9 @@ def test_email_valide_sans_parametre(client):
 
     assert response.status_code == 400
     assert response.get_json()["erreur"] == "Le paramètre 'email' est requis"
+
+def test_email_valide_parametre_vide(client):
+    response = client.get(f"{URL_EMAIL}?email=%20%20")
+
+    assert response.status_code == 400
+    assert response.get_json()["erreur"] == "Le paramètre 'email' est requis"
