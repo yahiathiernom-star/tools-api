@@ -7,3 +7,10 @@ def test_email_valide_format_correct(client):
 
     assert response.status_code == 200
     assert response.get_json() == {"email": "test@mail.com", "valide": True}
+
+    # --- Cas limites ---
+def test_email_valide_sans_arobase(client):
+    response = client.get(f"{URL_EMAIL}?email=testmail.com")
+
+    assert response.status_code == 200
+    assert response.get_json()["valide"] is False
